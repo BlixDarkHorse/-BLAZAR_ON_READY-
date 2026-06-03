@@ -1,0 +1,80 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Prueba Google",
+      "email": "google@test.local",
+      "provider": "google"
+    },
+    {
+      "id": 2,
+      "name": "Prueba Microsoft",
+      "email": "microsoft@test.local",
+      "provider": "microsoft"
+    }
+  ],
+  "banners": [
+    {
+      "title": "Noche Dorada",
+      "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80"
+    },
+    {
+      "title": "Anime Neon",
+      "image": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1200&q=80"
+    },
+    {
+      "title": "Series Obscuras",
+      "image": "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=1200&q=80"
+    }
+  ],
+  "sections": {
+    "inicio": [
+      {
+        "title": "Blazar Prime",
+        "description": "Portada principal con anuncios y estrenos.",
+        "image": "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        "title": "Top de la semana",
+        "description": "Lo más visto por la comunidad.",
+        "image": "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?auto=format&fit=crop&w=900&q=80"
+      }
+    ],
+    "anime": [
+      {
+        "title": "Blade of Eclipse",
+        "description": "Acción sobrenatural con estética neón.",
+        "image": "https://images.unsplash.com/photo-1616469829581-73993eb86b02?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        "title": "Crimson Orbit",
+        "description": "Mechas y drama galáctico.",
+        "image": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=900&q=80"
+      }
+    ],
+    "series": [
+      {
+        "title": "Distrito Zero",
+        "description": "Thriller futurista en una ciudad sin ley.",
+        "image": "https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        "title": "Código Aurora",
+        "description": "Misterio tecnológico y conspiración global.",
+        "image": "https://images.unsplash.com/photo-1505685296765-3a2736de412f?auto=format&fit=crop&w=900&q=80"
+      }
+    ],
+    "exclusivos": [
+      {
+        "title": "Sello Blazar",
+        "description": "Producción exclusiva disponible solo aquí.",
+        "image": "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&w=900&q=80"
+      },
+      {
+        "title": "Origen Lunar",
+        "description": "Miniserie premium con estreno anticipado.",
+        "image": "https://images.unsplash.com/photo-1516962080544-eac695c93791?auto=format&fit=crop&w=900&q=80"
+      }
+    ]
+  }
+}
