@@ -209,3 +209,9 @@ body.sqr-theme::before {
     grid-template-columns: 1fr;
   }
 }
+
+.oauth-btn.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: auto;
+}

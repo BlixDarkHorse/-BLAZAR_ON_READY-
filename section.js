@@ -1,6 +1,8 @@
 const wrapper = document.querySelector('.slides');
 const title = document.getElementById('section-name');
 const lead = document.getElementById('section-lead');
+const prevButton = document.getElementById('prev');
+const nextButton = document.getElementById('next');
 
 const sectionKey = document.body.dataset.section;
 const labels = {
@@ -19,40 +21,98 @@ const leads = {
 
 let index = 0;
 
-function moverSlide(next) {
-  index = next;
-  const max = wrapper.children.length - 1;
-  if (index < 0) index = max;
-  if (index > max) index = 0;
+function isSafeHttpUrl(value) {
+  try {
+    const parsed = new URL(value, window.location.origin);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+function moveSlide(targetIndex) {
+  const total = wrapper.children.length;
+  if (total === 0) return;
+
+  let newIndex = targetIndex;
+  const max = total - 1;
+  if (newIndex < 0) newIndex = max;
+  if (newIndex > max) newIndex = 0;
+  index = newIndex;
   wrapper.style.transform = `translateX(-${index * 100}%)`;
 }
 
-async function iniciar() {
+function appendSlide(item) {
+  if (!isSafeHttpUrl(item?.image)) return;
+
+  const article = document.createElement('article');
+  article.className = 'slide';
+
+  const image = document.createElement('img');
+  image.src = item.image;
+  image.alt = item.title || 'Contenido';
+
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+
+  const heading = document.createElement('h2');
+  heading.textContent = item.title || 'Sin título';
+
+  const description = document.createElement('p');
+  description.textContent = item.description || 'Sin descripción';
+
+  meta.appendChild(heading);
+  meta.appendChild(description);
+  article.appendChild(image);
+  article.appendChild(meta);
+  wrapper.appendChild(article);
+}
+
+async function initialize() {
   title.textContent = labels[sectionKey] || 'Sección';
   lead.textContent = leads[sectionKey] || '';
 
-  const res = await fetch('data/mock-db.json');
-  const data = await res.json();
-  const items = data.sections[sectionKey] || [];
+  let response;
+  try {
+    response = await fetch('data/mock-db.json');
+  } catch (networkError) {
+    throw new Error(`Fallo de red al solicitar mock-db.json: ${networkError.message}`);
+  }
+
+  if (!response.ok) {
+    throw new Error(`No se pudo leer mock-db.json (HTTP ${response.status}).`);
+  }
+
+  const data = await response.json();
+  const items = data.sections?.[sectionKey] || [];
 
   wrapper.innerHTML = '';
-  items.forEach((item) => {
-    const article = document.createElement('article');
-    article.className = 'slide';
-    article.innerHTML = `
-      <img src="${item.image}" alt="${item.title}">
-      <div class="meta">
-        <h2>${item.title}</h2>
-        <p>${item.description}</p>
-      </div>
-    `;
-    wrapper.appendChild(article);
-  });
+  items.forEach(appendSlide);
+
+  if (wrapper.children.length === 0) {
+    throw new Error('No hay contenido disponible para esta sección.');
+  }
+
+  prevButton.addEventListener('click', () => moveSlide(index - 1));
+  nextButton.addEventListener('click', () => moveSlide(index + 1));
 }
 
-document.getElementById('prev').addEventListener('click', () => moverSlide(index - 1));
-document.getElementById('next').addEventListener('click', () => moverSlide(index + 1));
+initialize().catch((error) => {
+  wrapper.innerHTML = '';
+  const fallback = document.createElement('article');
+  fallback.className = 'slide';
 
-iniciar().catch(() => {
-  wrapper.innerHTML = '<article class="slide"><div class="meta"><h2>Error</h2><p>No se pudieron cargar los datos de prueba.</p></div></article>';
+  const meta = document.createElement('div');
+  meta.className = 'meta';
+
+  const heading = document.createElement('h2');
+  heading.textContent = 'Error';
+
+  const message = document.createElement('p');
+  message.textContent = `Error cargando esta sección: ${error.message}`;
+
+  meta.appendChild(heading);
+  meta.appendChild(message);
+  fallback.appendChild(meta);
+  wrapper.appendChild(fallback);
 });
